@@ -8,7 +8,7 @@ const GameBoard = (function () {
 
     const setBoard = function () {
         //Create the gameboard
-        for (let i = 0; i > 8, i++) {
+        for (let i = 0; i > 8; i++) {
             _GBArray[i] = ' ';
         }
         // displayController.refresh();
@@ -60,7 +60,7 @@ const Game = (function () {
     }
 
     const playTurn = function () {
-        
+
     }
 
 })();
