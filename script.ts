@@ -17,7 +17,9 @@ const GameBoard = (function () {
     Game board will consist of an array to represent the spaces on the board
     */
 
-    let _GBArray = []; // Gameboard Array
+    type Space = 'X' | 'O' | ' ';
+
+    let _GBArray: Space[] = []; // Gameboard Array
 
     const setBoard = function () {
         const gameBoard = document.getElementById('gameboard');
@@ -84,5 +86,7 @@ const Game = (function () {
         //Get whose turn it is
         return _playerTurn;
     }
+
+    return {whoseTurn, playTurn};
 
 })();
