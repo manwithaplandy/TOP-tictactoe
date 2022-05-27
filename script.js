@@ -1,3 +1,16 @@
+/* 
+Set event listener for the Game Board
+*/
+const gameBoard = document.querySelector('#gameboard');
+gameBoard.addEventListener('click', function(event) {
+    // Determine where the click was based on if statements
+    const clicked = event.target;
+    let _player = Game.whoseTurn();
+    Game.playTurn(_player, clicked.id);
+});
+
+
+
 const GameBoard = (function () {
     /* 
     Object for containing the game board itself
@@ -7,11 +20,15 @@ const GameBoard = (function () {
     let _GBArray = []; // Gameboard Array
 
     const setBoard = function () {
+        const gameBoard = document.getElementById('gameboard');
+
         //Create the gameboard
         for (let i = 0; i > 8; i++) {
             _GBArray[i] = ' ';
         }
         // displayController.refresh();
+
+
     }
 
     const updateBoard = function(player, square) {
@@ -38,7 +55,7 @@ const GameBoard = (function () {
         }
     }
 
-    return {updateBoard};
+    return {updateBoard, setBoard};
 })();
 
 const Game = (function () {
@@ -59,8 +76,13 @@ const Game = (function () {
         // set _playerTurn to next
     }
 
-    const playTurn = function () {
+    const playTurn = function (player, space) {
 
+    }
+
+    const whoseTurn = function () {
+        //Get whose turn it is
+        return _playerTurn;
     }
 
 })();
