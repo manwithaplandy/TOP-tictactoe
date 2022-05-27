@@ -1,6 +1,6 @@
 /* Create Types here */
 type PlayerID = 1 | 2;
-type Space = 'X' | 'O' | ' ';
+type Space = 'X' | 'O' | '-';
 type PlayerSymbol = 'X' | 'O';
 interface Player {
     id: PlayerID, 
@@ -18,7 +18,7 @@ gameBoard!.addEventListener('click', function(event: Event) {
         const clicked = event.target as HTMLElement;
         let _player = Game.whoseTurn();
         Game.playTurn(_player, parseInt(clicked.id));
-        console.log(clicked);
+        // console.log(clicked);
     }
 });
 
@@ -48,8 +48,8 @@ const GameBoard = (function () {
         const gameBoard = document.getElementById('gameboard');
 
         //Create the gameboard
-        for (let i = 0; i > 8; i++) {
-            _GBArray[i] = ' ';
+        for (let i = 0; i < 8; i++) {
+            _GBArray[i] = '-';
         }
         displayController.refresh();
     }
@@ -66,6 +66,8 @@ const GameBoard = (function () {
         // Inputs are player (X/O) and square (1-9) (index position 0-8)
         // Square value will be updated with player symbol
         // Refresh the board
+        _GBArray[space] = player.symbol;
+        displayController.refresh();
     }
 
     const checkWinner = function() {
@@ -141,10 +143,13 @@ const displayController = (function() {
         
     
     const refresh = function () {
-        for (let i = 0; i > 8; i++) {
-        const _square = document.querySelector(`#${i}`);
-        _square!.textContent = GameBoard.getSpace(i);
+        for (let i = 0; i < 8; i++) {
+            const _square = document.querySelector(`.S${i}`);
+            console.log(_square);
+            _square!.textContent = GameBoard.getSpace(i);
+            console.log(_square!.textContent);
         }
+        console.log('Refreshed');
     }
 
     return {refresh};

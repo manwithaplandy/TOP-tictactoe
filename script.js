@@ -10,7 +10,7 @@ gameBoard.addEventListener('click', function (event) {
         const clicked = event.target;
         let _player = Game.whoseTurn();
         Game.playTurn(_player, parseInt(clicked.id));
-        console.log(clicked);
+        // console.log(clicked);
     }
 });
 /*
@@ -32,10 +32,10 @@ const GameBoard = (function () {
     const setBoard = function () {
         const gameBoard = document.getElementById('gameboard');
         //Create the gameboard
-        for (let i = 0; i > 8; i++) {
-            _GBArray[i] = ' ';
+        for (let i = 0; i < 8; i++) {
+            _GBArray[i] = '-';
         }
-        // displayController.refresh();
+        displayController.refresh();
     };
     const checkSpace = function (space) {
         // Return true if space has not been played yet
@@ -47,6 +47,8 @@ const GameBoard = (function () {
         // Inputs are player (X/O) and square (1-9) (index position 0-8)
         // Square value will be updated with player symbol
         // Refresh the board
+        _GBArray[space] = player.symbol;
+        displayController.refresh();
     };
     const checkWinner = function () {
         //Series of if statements to determine
@@ -62,7 +64,10 @@ const GameBoard = (function () {
             // Publish game winner
         }
     };
-    return { updateBoard, setBoard, checkSpace };
+    const getSpace = function (space) {
+        return _GBArray[space];
+    };
+    return { updateBoard, setBoard, checkSpace, getSpace };
 })();
 const Game = (function () {
     /* Module for containing game logic */
@@ -103,6 +108,16 @@ const Game = (function () {
     return { whoseTurn, playTurn, startGame, isPlaying };
 })();
 const displayController = (function () {
+    const refresh = function () {
+        for (let i = 0; i < 8; i++) {
+            const _square = document.querySelector(`.S${i}`);
+            console.log(_square);
+            _square.textContent = GameBoard.getSpace(i);
+            console.log(_square.textContent);
+        }
+        console.log('Refreshed');
+    };
+    return { refresh };
 })();
 const Player = function (id, symbol) {
     return {
