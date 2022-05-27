@@ -11,30 +11,41 @@
 </head>
 <body>
     <div class="container">
-        <div id="title" class="flex flex-col">
-            <h1 class="self-center text-5xl h-min pt-2">TIC TAC TOE</h1>
-            <h4 class="self-center text-xl">by Andrew Malvani</h4>
-        </div>
-        <div class="main grid grid-rows-3">
+        <div class="main grid">
+            <div id="title" class="flex flex-col">
+                <h1 class="self-center text-5xl h-min pt-2">TIC TAC TOE</h1>
+                <h4 class="self-center text-xl">by Andrew Malvani</h4>
+            </div>
             <div id="scoreboard" class="grid">
-                <div id="player-scores">
+                <div id="player-scores" class="grid grid-cols-2">
+                    <h3 class="text-3xl text-center col-span-2 place-self-center">Current scores:</h3>
+                    <div class="player-1-scores place-self-center">
+                        <h4 class="text-xl">Player 1:</h4>
+                        <h5 class="text-2xl text-center font-bold">5</h5>
+                    </div>
+                    <div class="player-2-scores place-self-center">
+                        <h4 class="text-xl">Player 2:</h4>
+                        <h5 class="text-2xl text-center font-bold">5</h5>
+                    </div>
                 </div>
-                <div id="player-turn">
+                <div id="player-turn-container">
+                    <h3 class="text-2xl text-center">Current player:</h3>
+                    <div id="player-turn" class="text-2xl font-bold text-center">Player 1</div>
                 </div>
             </div>
-            <div id="gameboard" class="grid grid-cols-3 grid-rows-3 place-items-center gap-7">
-                <div id="1" class="border-2 border-slate-500 p-5">X</div>
-                <div id="2" class="border-2 border-slate-500 p-5">X</div>
-                <div id="3" class="border-2 border-slate-500 p-5">X</div>
-                <div id="4" class="border-2 border-slate-500 p-5">X</div>
-                <div id="5" class="border-2 border-slate-500 p-5">X</div>
-                <div id="6" class="border-2 border-slate-500 p-5">X</div>
-                <div id="7" class="border-2 border-slate-500 p-5">X</div>
-                <div id="8" class="border-2 border-slate-500 p-5">X</div>
-                <div id="9" class="border-2 border-slate-500 p-5">X</div>
+            <div id="gameboard" class="py-3 grid grid-cols-3 grid-rows-3 place-items-center w-fit place-self-center text-3xl">
+                <div id="0" class="rounded-xl border-2 border-t-0 border-l-0 border-slate-500 p-9">0</div>
+                <div id="1" class="rounded-xl border-2 border-t-0 border-slate-500 p-9">1</div>
+                <div id="2" class="rounded-xl border-2 border-t-0 border-r-0 border-slate-500 p-9">2</div>
+                <div id="3" class="rounded-xl border-2 border-l-0 border-slate-500 p-9">3</div>
+                <div id="4" class="rounded-xl border-2 border-slate-500 p-9">4</div>
+                <div id="5" class="rounded-xl border-2 border-r-0 border-slate-500 p-9">5</div>
+                <div id="6" class="rounded-xl border-2 border-b-0 border-l-0 border-slate-500 p-9">6</div>
+                <div id="7" class="rounded-xl border-2 border-b-0 border-slate-500 p-9">7</div>
+                <div id="8" class="rounded-xl border-2 border-b-0 border-r-0 border-slate-500 p-9">8</div>
             </div>
             <div id="buttons" class="grid">
-                <button id="start-game" class="border-2 border-slate-300 place-self-center px-5 py-3 bg-blue-400 text-neutral-100 font-bold text-2xl">Start Game</button>
+                <button id="start-game" class="rounded-2xl border-2 border-slate-300 place-self-center px-5 py-3 bg-blue-400 text-neutral-100 font-bold text-2xl">Start Game</button>
             </div>
         </div>
     </div>
