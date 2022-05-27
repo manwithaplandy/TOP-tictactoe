@@ -5,10 +5,13 @@ Set event listener for the Game Board
 const gameBoard = document.querySelector('#gameboard');
 gameBoard.addEventListener('click', function (event) {
     // Determine where the click was based on if statements
-    const clicked = event.target;
-    let _player = Game.whoseTurn();
-    Game.playTurn(_player, parseInt(clicked.id));
-    console.log(clicked);
+    // Check game is active before firing
+    if (Game.isPlaying()) {
+        const clicked = event.target;
+        let _player = Game.whoseTurn();
+        Game.playTurn(_player, parseInt(clicked.id));
+        console.log(clicked);
+    }
 });
 /*
 Set event listener for StartGame function
@@ -79,11 +82,9 @@ const Game = (function () {
         // set _playerTurn to next
         if (_playerTurn === player1) {
             _playerTurn = player2;
-            console.log('Switched to 2');
         }
         else {
             _playerTurn = player1;
-            console.log('Switched to 1');
         }
     };
     const playTurn = function (player, space) {

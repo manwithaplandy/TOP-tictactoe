@@ -13,10 +13,13 @@ Set event listener for the Game Board
 const gameBoard = document.querySelector('#gameboard');
 gameBoard!.addEventListener('click', function(event: Event) {
     // Determine where the click was based on if statements
-    const clicked = event.target as HTMLElement;
-    let _player = Game.whoseTurn();
-    Game.playTurn(_player, parseInt(clicked.id));
-    console.log(clicked);
+    // Check game is active before firing
+    if (Game.isPlaying()) {
+        const clicked = event.target as HTMLElement;
+        let _player = Game.whoseTurn();
+        Game.playTurn(_player, parseInt(clicked.id));
+        console.log(clicked);
+    }
 });
 
 
@@ -48,7 +51,7 @@ const GameBoard = (function () {
         for (let i = 0; i > 8; i++) {
             _GBArray[i] = ' ';
         }
-        // displayController.refresh();
+        displayController.refresh();
     }
 
     const checkSpace = function(space: number) {
@@ -80,7 +83,11 @@ const GameBoard = (function () {
         }
     }
 
-    return {updateBoard, setBoard, checkSpace};
+    const getSpace = function (space: number) {
+        return _GBArray[space];
+    }
+
+    return {updateBoard, setBoard, checkSpace, getSpace};
 })();
 
 const Game = (function () {
@@ -105,10 +112,8 @@ const Game = (function () {
         // set _playerTurn to next
         if (_playerTurn === player1) {
             _playerTurn = player2;
-            console.log('Switched to 2')
         } else {
             _playerTurn = player1;
-            console.log('Switched to 1')
         }
     }
 
@@ -133,6 +138,16 @@ const Game = (function () {
 })();
 
 const displayController = (function() {
+        
+    
+    const refresh = function () {
+        for (let i = 0; i > 8; i++) {
+        const _square = document.querySelector(`#${i}`);
+        _square!.textContent = GameBoard.getSpace(i);
+        }
+    }
+
+    return {refresh};
 
 })();
 
