@@ -10,6 +10,16 @@ gameBoard.addEventListener('click', function (event) {
     Game.playTurn(_player, parseInt(clicked.id));
     console.log(clicked);
 });
+/*
+Set event listener for StartGame function
+*/
+const startButton = document.querySelector('#start-game');
+startButton.addEventListener('click', function () {
+    if (!Game.isPlaying()) {
+        Game.startGame();
+        startButton === null || startButton === void 0 ? void 0 : startButton.classList.add('hidden');
+    }
+});
 const GameBoard = (function () {
     /*
     Object for containing the game board itself
@@ -24,12 +34,16 @@ const GameBoard = (function () {
         }
         // displayController.refresh();
     };
+    const checkSpace = function (space) {
+        // Return true if space has not been played yet
+        return (_GBArray[space] != "X" && _GBArray[space] != "O");
+    };
     const updateBoard = function (player, space) {
-        // Validate it is the player's turn
+        console.log(`Player ${player.symbol} plays in space ${space}`);
         // Update board with player move
         // Inputs are player (X/O) and square (1-9) (index position 0-8)
         // Square value will be updated with player symbol
-        // Publish game board update
+        // Refresh the board
     };
     const checkWinner = function () {
         //Series of if statements to determine
@@ -45,29 +59,49 @@ const GameBoard = (function () {
             // Publish game winner
         }
     };
-    return { updateBoard, setBoard };
+    return { updateBoard, setBoard, checkSpace };
 })();
 const Game = (function () {
     /* Module for containing game logic */
     let _playing = false; // Switch for game on
     let _playerTurn;
     const startGame = function () {
-        // Let player 1 choose a symbol
-        // Assign player 2 the other
+        // Player 1 is X, player 2 is O
         // Set the turn to player 1
+        _playerTurn = player1;
         // Set up the game board
+        GameBoard.setBoard();
         // Set _playing variable to true
+        _playing = true;
+        console.log(`startGame() / _playing: ${_playing} / playerTurn: ${_playerTurn.id}`);
     };
     const nextTurn = function () {
         // set _playerTurn to next
+        if (_playerTurn === player1) {
+            _playerTurn = player2;
+            console.log('Switched to 2');
+        }
+        else {
+            _playerTurn = player1;
+            console.log('Switched to 1');
+        }
     };
     const playTurn = function (player, space) {
+        if (GameBoard.checkSpace(space)) {
+            GameBoard.updateBoard(player, space);
+        }
+        nextTurn();
     };
     const whoseTurn = function () {
         //Get whose turn it is
         return _playerTurn;
     };
-    return { whoseTurn, playTurn };
+    const isPlaying = function () {
+        return _playing;
+    };
+    return { whoseTurn, playTurn, startGame, isPlaying };
+})();
+const displayController = (function () {
 })();
 const Player = function (id, symbol) {
     return {
@@ -75,3 +109,6 @@ const Player = function (id, symbol) {
         symbol
     };
 };
+// Initialize player1 and player2
+let player1 = Player(1, "X");
+let player2 = Player(2, "O");

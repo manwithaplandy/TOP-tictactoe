@@ -2,7 +2,10 @@
 type PlayerID = 1 | 2;
 type Space = 'X' | 'O' | ' ';
 type PlayerSymbol = 'X' | 'O';
-type Player = {id: PlayerID, symbol: PlayerSymbol}
+interface Player {
+    id: PlayerID, 
+    symbol: PlayerSymbol
+}
 
 /* 
 Set event listener for the Game Board
@@ -10,11 +13,23 @@ Set event listener for the Game Board
 const gameBoard = document.querySelector('#gameboard');
 gameBoard!.addEventListener('click', function(event: Event) {
     // Determine where the click was based on if statements
-    const clicked = (<HTMLElement>event.target);
+    const clicked = event.target as HTMLElement;
     let _player = Game.whoseTurn();
     Game.playTurn(_player, parseInt(clicked.id));
     console.log(clicked);
 });
+
+
+/*
+Set event listener for StartGame function
+*/
+const startButton = document.querySelector('#start-game');
+startButton!.addEventListener('click', function() {
+    if (!Game.isPlaying()) {
+        Game.startGame();
+        startButton?.classList.add('hidden');
+    }
+})
 
 
 
@@ -34,17 +49,20 @@ const GameBoard = (function () {
             _GBArray[i] = ' ';
         }
         // displayController.refresh();
+    }
 
+    const checkSpace = function(space: number) {
+        // Return true if space has not been played yet
+        return (_GBArray[space] != "X" && _GBArray[space] != "O");
 
     }
 
     const updateBoard = function(player: Player, space: number) {
-        // Validate it is the player's turn
-
+        console.log(`Player ${player.symbol} plays in space ${space}`)
         // Update board with player move
         // Inputs are player (X/O) and square (1-9) (index position 0-8)
         // Square value will be updated with player symbol
-        // Publish game board update
+        // Refresh the board
     }
 
     const checkWinner = function() {
@@ -62,29 +80,43 @@ const GameBoard = (function () {
         }
     }
 
-    return {updateBoard, setBoard};
+    return {updateBoard, setBoard, checkSpace};
 })();
 
 const Game = (function () {
     /* Module for containing game logic */
 
-    let _playing = false; // Switch for game on
+    let _playing: boolean = false; // Switch for game on
     let _playerTurn: Player;
 
     const startGame = function() {
-        // Let player 1 choose a symbol
-        // Assign player 2 the other
+        // Player 1 is X, player 2 is O
         // Set the turn to player 1
+        _playerTurn = player1;
         // Set up the game board
+        GameBoard.setBoard();
         // Set _playing variable to true
+        _playing = true;
+
+        console.log(`startGame() / _playing: ${_playing} / playerTurn: ${_playerTurn.id}`)
     }
 
     const nextTurn = function () {
         // set _playerTurn to next
+        if (_playerTurn === player1) {
+            _playerTurn = player2;
+            console.log('Switched to 2')
+        } else {
+            _playerTurn = player1;
+            console.log('Switched to 1')
+        }
     }
 
     const playTurn = function (player: Player, space: number) {
-
+        if (GameBoard.checkSpace(space)) {
+            GameBoard.updateBoard(player, space);
+        }
+        nextTurn();
     }
 
     const whoseTurn = function () {
@@ -92,15 +124,25 @@ const Game = (function () {
         return _playerTurn;
     }
 
-    return {whoseTurn, playTurn};
+    const isPlaying = function () {
+        return _playing;
+    }
+
+    return {whoseTurn, playTurn, startGame, isPlaying};
+
+})();
+
+const displayController = (function() {
 
 })();
 
 const Player = function (id: PlayerID, symbol: PlayerSymbol) {
-
-
     return {
         id,
         symbol
     }
 }
+
+// Initialize player1 and player2
+let player1 = Player(1, "X");
+let player2 = Player(2, "O");
