@@ -2,6 +2,7 @@
 type PlayerID = 1 | 2;
 type Space = 'X' | 'O' | ' ';
 type PlayerSymbol = 'X' | 'O';
+type Player = {id: PlayerID, symbol: PlayerSymbol}
 
 /* 
 Set event listener for the Game Board
@@ -9,11 +10,10 @@ Set event listener for the Game Board
 const gameBoard = document.querySelector('#gameboard');
 gameBoard!.addEventListener('click', function(event: Event) {
     // Determine where the click was based on if statements
-    const clicked = event.target;
+    const clicked = (<HTMLElement>event.target);
     let _player = Game.whoseTurn();
-    // Game.playTurn(_player, clicked.id);
+    Game.playTurn(_player, parseInt(clicked.id));
     console.log(clicked);
-    console.log(clicked.id);
 });
 
 
@@ -38,7 +38,7 @@ const GameBoard = (function () {
 
     }
 
-    const updateBoard = function(player, square) {
+    const updateBoard = function(player: Player, space: number) {
         // Validate it is the player's turn
 
         // Update board with player move
@@ -69,7 +69,7 @@ const Game = (function () {
     /* Module for containing game logic */
 
     let _playing = false; // Switch for game on
-    let _playerTurn: PlayerID;
+    let _playerTurn: Player;
 
     const startGame = function() {
         // Let player 1 choose a symbol
@@ -83,7 +83,7 @@ const Game = (function () {
         // set _playerTurn to next
     }
 
-    const playTurn = function (player: typeof Player, space: Space) {
+    const playTurn = function (player: Player, space: number) {
 
     }
 

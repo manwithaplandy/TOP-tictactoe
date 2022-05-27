@@ -7,9 +7,8 @@ gameBoard.addEventListener('click', function (event) {
     // Determine where the click was based on if statements
     const clicked = event.target;
     let _player = Game.whoseTurn();
-    // Game.playTurn(_player, clicked.id);
+    Game.playTurn(_player, parseInt(clicked.id));
     console.log(clicked);
-    console.log(clicked.id);
 });
 const GameBoard = (function () {
     /*
@@ -25,7 +24,7 @@ const GameBoard = (function () {
         }
         // displayController.refresh();
     };
-    const updateBoard = function (player, square) {
+    const updateBoard = function (player, space) {
         // Validate it is the player's turn
         // Update board with player move
         // Inputs are player (X/O) and square (1-9) (index position 0-8)
@@ -70,3 +69,9 @@ const Game = (function () {
     };
     return { whoseTurn, playTurn };
 })();
+const Player = function (id, symbol) {
+    return {
+        id,
+        symbol
+    };
+};
