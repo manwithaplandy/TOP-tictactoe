@@ -150,6 +150,8 @@ const displayController = (function() {
             const _square = document.querySelector(`.S${i}`);
             _square!.textContent = GameBoard.getSpace(i);
         }
+        document.querySelector('#p1score')!.textContent = player1.wins.toString();
+        document.querySelector('#p2score')!.textContent = player2.wins.toString();
     }
 
     return {refresh};
