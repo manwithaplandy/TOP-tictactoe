@@ -109,7 +109,7 @@ const Game = (function () {
 })();
 const displayController = (function () {
     const refresh = function () {
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 9; i++) {
             const _square = document.querySelector(`.S${i}`);
             console.log(_square);
             _square.textContent = GameBoard.getSpace(i);
