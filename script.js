@@ -48,7 +48,7 @@ const GameBoard = (function () {
         // Refresh the board - done
         _GBArray[space] = player.symbol;
         displayController.refresh();
-        console.log(`Player ${player.symbol} plays in space ${space}`);
+        console.log(`Player ${player.id.toString()} plays in space ${space}`);
         if (checkWinner()) {
             // Do winner stuff
             console.log('winner!');
@@ -96,9 +96,9 @@ const Game = (function () {
     };
     const playTurn = function (player, space) {
         if (GameBoard.checkSpace(space)) {
+            nextTurn();
             GameBoard.updateBoard(player, space);
         }
-        nextTurn();
     };
     const whoseTurn = function () {
         //Get whose turn it is
