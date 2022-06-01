@@ -19,7 +19,6 @@ gameBoard!.addEventListener('click', function(event: Event) {
         const clicked = event.target as HTMLElement;
         let _player = Game.whoseTurn();
         Game.playTurn(_player, parseInt(clicked.id));
-        // console.log(clicked);
     }
 });
 
@@ -69,10 +68,8 @@ const GameBoard = (function () {
         // Refresh the board - done
         _GBArray[space] = player.symbol;
         displayController.refresh();
-        console.log(`Player ${player.id.toString()} plays in space ${space}`)
         if (checkWinner()) {
             Game.winner(player);
-            console.log('winner!')
         }
     }
 
@@ -111,8 +108,6 @@ const Game = (function () {
         GameBoard.setBoard();
         // Set _playing variable to true
         _playing = true;
-
-        console.log(`startGame() / _playing: ${_playing} / playerTurn: ${_playerTurn.id}`)
     }
 
     const nextTurn = function () {
