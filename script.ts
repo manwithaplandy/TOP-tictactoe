@@ -5,6 +5,7 @@ type PlayerSymbol = 'X' | 'O';
 interface Player {
     id: PlayerID, 
     symbol: PlayerSymbol
+    wins: Number
 }
 
 /* 
@@ -61,18 +62,22 @@ const GameBoard = (function () {
     }
 
     const updateBoard = function(player: Player, space: number) {
-        console.log(`Player ${player.symbol} plays in space ${space}`)
-        // Update board with player move
-        // Inputs are player (X/O) and square (1-9) (index position 0-8)
-        // Square value will be updated with player symbol
-        // Refresh the board
+        // Update board with player move - done
+        // Inputs are player (X/O) and square (1-9) (index position 0-8) - validated in playTurn function
+        // Square value will be updated with player symbol - done
+        // Refresh the board - done
         _GBArray[space] = player.symbol;
         displayController.refresh();
+        console.log(`Player ${player.symbol} plays in space ${space}`)
+        if (checkWinner()) {
+            // Do winner stuff
+            console.log('winner!')
+        }
     }
 
     const checkWinner = function() {
-        //Series of if statements to determine
-        if ((_GBArray[0] === _GBArray[1] && _GBArray[1] === _GBArray[2]) ||
+        //Series of if statements to determine - return bool
+        return ((_GBArray[0] === _GBArray[1] && _GBArray[1] === _GBArray[2]) ||
             (_GBArray[3] === _GBArray[4] && _GBArray[4] === _GBArray[5]) ||
             (_GBArray[6] === _GBArray[7] && _GBArray[7] === _GBArray[8]) || // Rows
             (_GBArray[0] === _GBArray[3] && _GBArray[3] === _GBArray[6]) ||
@@ -80,9 +85,7 @@ const GameBoard = (function () {
             (_GBArray[2] === _GBArray[5] && _GBArray[5] === _GBArray[8]) || // Columns
             (_GBArray[0] === _GBArray[4] && _GBArray[4] === _GBArray[8]) ||
             (_GBArray[2] === _GBArray[4] && _GBArray[4] === _GBArray[6]) // Diagonals
-        ) {
-            // Publish game winner
-        }
+        );
     }
 
     const getSpace = function (space: number) {
@@ -145,11 +148,8 @@ const displayController = (function() {
     const refresh = function () {
         for (let i = 0; i < 9; i++) {
             const _square = document.querySelector(`.S${i}`);
-            console.log(_square);
             _square!.textContent = GameBoard.getSpace(i);
-            console.log(_square!.textContent);
         }
-        console.log('Refreshed');
     }
 
     return {refresh};
@@ -159,7 +159,8 @@ const displayController = (function() {
 const Player = function (id: PlayerID, symbol: PlayerSymbol) {
     return {
         id,
-        symbol
+        symbol,
+        wins: 0
     }
 }
 
