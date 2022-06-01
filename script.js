@@ -117,6 +117,7 @@ const displayController = (function () {
         }
         document.querySelector('#p1score').textContent = player1.wins.toString();
         document.querySelector('#p2score').textContent = player2.wins.toString();
+        document.querySelector('#player-turn').textContent = "Player " + Game.whoseTurn().id.toString();
     };
     return { refresh };
 })();
