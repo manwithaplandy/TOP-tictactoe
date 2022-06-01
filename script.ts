@@ -48,7 +48,7 @@ const GameBoard = (function () {
         const gameBoard = document.getElementById('gameboard');
 
         //Create the gameboard
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 9; i++) {
             _GBArray[i] = '-';
         }
         displayController.refresh();
