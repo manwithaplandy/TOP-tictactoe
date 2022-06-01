@@ -5,7 +5,7 @@ type PlayerSymbol = 'X' | 'O';
 interface Player {
     id: PlayerID, 
     symbol: PlayerSymbol
-    wins: Number
+    wins: number
 }
 
 /* 
@@ -31,10 +31,11 @@ const startButton = document.querySelector('#start-game');
 startButton!.addEventListener('click', function() {
     if (!Game.isPlaying()) {
         Game.startGame();
-        startButton?.classList.add('hidden');
+        startButton!.textContent = 'Restart';
+    } else if (Game.isPlaying()) {
+        Game.startGame();
     }
 })
-
 
 
 const GameBoard = (function () {
@@ -70,21 +71,22 @@ const GameBoard = (function () {
         displayController.refresh();
         console.log(`Player ${player.id.toString()} plays in space ${space}`)
         if (checkWinner()) {
-            // Do winner stuff
+            Game.winner(player);
             console.log('winner!')
         }
     }
 
     const checkWinner = function() {
         //Series of if statements to determine - return bool
-        return ((_GBArray[0] === _GBArray[1] && _GBArray[1] === _GBArray[2]) ||
-            (_GBArray[3] === _GBArray[4] && _GBArray[4] === _GBArray[5]) ||
-            (_GBArray[6] === _GBArray[7] && _GBArray[7] === _GBArray[8]) || // Rows
-            (_GBArray[0] === _GBArray[3] && _GBArray[3] === _GBArray[6]) ||
-            (_GBArray[1] === _GBArray[4] && _GBArray[4] === _GBArray[7]) ||
-            (_GBArray[2] === _GBArray[5] && _GBArray[5] === _GBArray[8]) || // Columns
-            (_GBArray[0] === _GBArray[4] && _GBArray[4] === _GBArray[8]) ||
-            (_GBArray[2] === _GBArray[4] && _GBArray[4] === _GBArray[6]) // Diagonals
+        //Initial placeholder values are throwing false positives, check array item is not '-'
+        return ((_GBArray[0] === _GBArray[1] && _GBArray[1] === _GBArray[2] && _GBArray[1] != '-') ||
+            (_GBArray[3] === _GBArray[4] && _GBArray[4] === _GBArray[5] && _GBArray[4] != '-') ||
+            (_GBArray[6] === _GBArray[7] && _GBArray[7] === _GBArray[8] && _GBArray[7] != '-') || // Rows
+            (_GBArray[0] === _GBArray[3] && _GBArray[3] === _GBArray[6] && _GBArray[3] != '-') ||
+            (_GBArray[1] === _GBArray[4] && _GBArray[4] === _GBArray[7] && _GBArray[4] != '-') ||
+            (_GBArray[2] === _GBArray[5] && _GBArray[5] === _GBArray[8] && _GBArray[5] != '-') || // Columns
+            (_GBArray[0] === _GBArray[4] && _GBArray[4] === _GBArray[8] && _GBArray[4] != '-') ||
+            (_GBArray[2] === _GBArray[4] && _GBArray[4] === _GBArray[6] && _GBArray[4] != '-') // Diagonals
         );
     }
 
@@ -123,7 +125,7 @@ const Game = (function () {
     }
 
     const playTurn = function (player: Player, space: number) {
-        if (GameBoard.checkSpace(space)) {
+        if (GameBoard.checkSpace(space) && _playing) {
             nextTurn();
             GameBoard.updateBoard(player, space);
         }
@@ -138,7 +140,14 @@ const Game = (function () {
         return _playing;
     }
 
-    return {whoseTurn, playTurn, startGame, isPlaying};
+    const winner = function (player: Player) {
+        player.wins++;
+        _playing = false;
+        console.log(`Player ${player.id} wins!`)
+        displayController.refresh();
+    }
+
+    return {whoseTurn, playTurn, startGame, isPlaying, winner};
 
 })();
 
